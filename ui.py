@@ -10,13 +10,10 @@ def sidebar():
             [
                 "Add",
                 "Subtract",
-                "Left Shift",
-                "Right Shift",
                 "NOT",
                 "AND",
                 "OR",
                 "XOR",
-                "XNOR",
                 "Hide Password",
             ],
         )
@@ -36,6 +33,16 @@ def sidebar():
             state.img_2 = None
         if "last_img" not in state:
             state.last_img = None
+        if "execute_operation" not in state:
+            state.execute_operation = False
+        if "secret_text" not in state:
+            state.secret_text = ""
+        if "final_result_img" not in state:
+            state.final_result_img = None
+        if "show_decoded_text" not in state:
+            state.show_decoded_text = False
+        if "last_op" not in state:
+            state.last_op = None
 
         # Image Source Selection
         input_method = st.radio(
@@ -46,7 +53,7 @@ def sidebar():
         img_upload = "First Image"
 
         # Two-image selection logic
-        if state.operation in ("AND", "XOR", "XNOR", "OR"):
+        if state.operation in ("AND", "XOR", "OR"):
             img_upload = st.radio(
                 "Select Image Slot:", ["First Image", "Second Image"], horizontal=True
             )
@@ -86,4 +93,4 @@ def sidebar():
 
         # Execution Button
         if st.button("Apply Operation", type="primary", use_container_width=True):
-            st.toast("Processing Image...")
+            state.execute_operation = True
